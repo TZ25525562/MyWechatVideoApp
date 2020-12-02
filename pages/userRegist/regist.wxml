@@ -1,0 +1,33 @@
+<view>
+  <!-- 背景图片 -->
+  <view class="login-image">
+    <image class="background-image" src="../resources/images/main.jpg"></image>
+  </view>
+  <view class="input">
+    <!-- 表单信息 -->
+    <form bindsubmit="regist">
+      <!-- 账号输入框 -->
+      <view class="inputView">
+        <image class="input-image" src="../resources/images/user.jpg"></image>
+        <label class="login-label">账号：</label>
+        <input placeholder="请输入账号"  class="inputText" placeholder-class="placeholder-class"/>
+      </view>
+
+      <!-- 密码输入框 -->
+      <view class="inputView">
+        <image class="input-image" src="../resources/images/password.jpg"></image>
+        <label class="login-label">密码：</label>
+        <input  class="inputText" placeholder="请输入密码" password="true"
+        placeholder-class="placeholder-class"/>
+      </view>
+
+      <!-- 按钮 -->
+      <view>
+        <button type="primary" form-type="submit" class="button-class">注册</button>
+      </view>
+      <view>
+        <button type="warn" class="button-class">返回登录</button>
+      </view>
+    </form>
+  </view>
+</view>
