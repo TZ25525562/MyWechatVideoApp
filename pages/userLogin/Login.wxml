@@ -5,7 +5,7 @@
   </view>
   <view class="input">
     <!-- 表单信息 -->
-    <form bindsubmit="regist">
+    <form bindsubmit="login">
       <!-- 账号输入框 -->
       <view class="inputView">
         <image class="input-image" src="../resources/images/user.jpg"></image>
@@ -24,10 +24,10 @@
 
       <!-- 按钮 -->
       <view>
-        <button type="primary" form-type="submit" class="button-class">注册</button>
+        <button type="primary" form-type="submit" class="button-class">登录</button>
       </view>
       <view>
-        <button type="warn" class="button-class" bindtap="goLogin">返回登录</button>
+        <button type="warn" class="button-class" bindtap="goRegist">没有账号？前往注册</button>
       </view>
     </form>
   </view>

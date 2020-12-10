@@ -5,8 +5,8 @@ Page({
 
   },
 
-  //与后端交互注册
-  regist:function(e){
+  // 与后端交互登录
+  login:function(e){
     var inputInfo = e.detail.value;
     var username = inputInfo.username;
     var password = inputInfo.password;
@@ -25,7 +25,7 @@ Page({
         })
         // 发送请求
         wx.request({
-          url: serverurl + '/register',
+          url: serverurl + '/login',
           method:"POST",
           data:{
               username:inputInfo.username,
@@ -40,14 +40,17 @@ Page({
             wx.hideLoading({
               // success: (res) => {},
             })
-            //注册信息回显到页面
+            //回显到个人信息页面
             if(status == 200){
                 wx.showToast({
-                  title: '注册成功！',
-                  icon: 'none',
+                  title: '登录成功！',
+                  icon: 'success',
                   duration : 5000,
                 })
                 app.userInfo = res.data.map.data;
+                wx.navigateTo({
+                  url: '../mine/mine',
+                })
             }else{
               wx.showToast({
                 title: res.data.message,
@@ -60,10 +63,10 @@ Page({
       }
   },
 
-  //返回登录界面
-  goLogin:function(){
+  // 前往注册界面
+  goRegist:function(){
       wx.navigateTo({
-        url: '../userLogin/Login',
+        url: '../userRegist/regist',
       })
   }
 

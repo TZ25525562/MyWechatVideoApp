@@ -1,14 +1,15 @@
 {
-  "pages":[
+  "pages": [
+    "pages/userLogin/Login",
+    "pages/mine/mine",
     "pages/userRegist/regist",
     "pages/index/index"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "短视频",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap37.json"
 }
