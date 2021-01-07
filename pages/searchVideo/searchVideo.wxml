@@ -1,0 +1,10 @@
+<import src="../../wxSearch-master/wxSearch/wxSearch.wxml"/>
+<form bindsubmit="wxSearchFn"> 
+<view class="wxSearch-section">    
+<view class="wxSearch-pancel">   
+<input bindinput="wxSearchInput" name="value" bindfocus="wxSerchFocus" value="{{wxSearchData.value}}" bindblur="wxSearchBlur" class="wxSearch-input" placeholder="搜索" />        
+<button class="wxSearch-button" form-type="submit" size="mini" plain="true">搜索</button>  
+</view>
+</view>
+</form>  
+<template is="wxSearch" data="{{wxSearchData}}"/>

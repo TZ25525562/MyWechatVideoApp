@@ -1,0 +1,46 @@
+.container{
+  width: 100%;
+  height: 500rpx;
+}
+
+.desc{
+  display: flex;
+  flex-wrap: nowrap;
+  height: 200rpx;
+}
+
+.group{
+  margin-top: 50rpx;
+}
+
+.choose{
+  display: flex;
+  justify-content: space-around;
+}
+
+.radio{
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.label{
+  margin-top: 100rpx;
+}
+
+.input{
+  margin-top: 100rpx;
+}
+
+.upload{
+  margin-top: 30rpx;
+  width: 85%;
+  height: 80rpx;
+}
+
+.reset{
+  margin-top: 30rpx;
+  width: 85%;
+  height: 80rpx;
+}

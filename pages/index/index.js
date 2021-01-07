@@ -1,54 +1,113 @@
-//index.js
-//获取应用实例
-const app = getApp()
+// ReferenceError: app is not defined的解决办法
+var app = getApp();
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    // 分页数据
+    page : 1,//当前页数
+    totalPage: 1,//总页数
+    videoList:[],//视频列表
+    //屏幕初始宽度
+    screenWidth:350,
+    serverUrl:app.serverUrl,
+    //热搜词判断词
+    isSaveRecord:"",
+    // 视频描述信息
+    videoDesc:"",
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+
+  onLoad: function (params) {
+    var me = this;
+    var page  = me.data.page;
+    // console.log(params);
+    //获取系统信息的屏幕宽度
+    var screenWidth = wx.getSystemInfoSync.screenWidth;
+    //获取传入的搜索词和判断条件
+    var isSaveRecord = params.isSaveRecord;
+    var videoDesc = params.search;
+    //搜索词为空
+    if(videoDesc == null || videoDesc == "" || videoDesc == undefined){
+      videoDesc = 0;
+    }
+    me.setData({
+      screenWidth: screenWidth,
+      isSaveRecord:isSaveRecord,
+      videoDesc:videoDesc,
     })
+
+    me.showCurrentPageVideo(page,isSaveRecord);
+
   },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
+
+  //将显示当前页视频抽取成函数
+  showCurrentPageVideo:function(page){
+    var me = this;
+    var isSaveRecord = me.data.isSaveRecord;
+    var videoDesc = me.data.videoDesc;
+    wx.showLoading({
+      title: '加载中，请稍后',
+    })
+    //发送请求
+    wx.request({
+    url: me.data.serverUrl + '/video/showAll?page=' + page + '&isSaveRecord=' + isSaveRecord,
+    method:'POST',
+    data:{
+      videoDesc:videoDesc,
+    },
+    success(res){
+      wx.hideLoading({
+      });
+      // 在当前页面隐藏导航条加载动画
+      wx.hideNavigationBarLoading();
+      // 停止当前页面下拉刷新。
+      wx.stopPullDownRefresh();
+      var data = res.data.map.data;
+      // console.log(res);
+      //如果第一次刷新则从头开始
+      if(page == 1){
+        me.setData({
+          videoList:[],
         })
       }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
+      var currentPage = data.page;
+      var totalPage = data.records;
+      var newVideoList = me.data.videoList;
+      var videoList = data.rows;
+      me.setData({
+        videoList: newVideoList.concat(videoList),
+        totalPage: totalPage,
+        page:currentPage,
       })
     }
+  })
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
+
+  // 页面上拉触底事件的处理函数
+  onReachBottom:function(){
+      var me = this;
+      var currentPage = me.data.page;
+      var totalPage = me.data.totalPage;
+// 判断当前页数和总页数是否相等，相等无需查询
+      if(currentPage == totalPage){
+        wx.showToast({
+          title: '已经到视频列表底部了！',
+          icon:'none',
+          duration:5000,
+        })
+        return;
+      }
+
+      var page = currentPage + 1;
+
+      //加载下一页内容
+      me.showCurrentPageVideo(page,0);
+
+  },
+
+  // 监听用户下拉动作
+  onPullDownRefresh:function(){
+      wx.showNavigationBarLoading();
+      this.showCurrentPageVideo(1,0);
   }
+
 })

@@ -35,6 +35,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success(res){
+            // console.log(res);
             var status = res.data.status;
             //相应成功后loading提示框消失
             wx.hideLoading({
@@ -47,7 +48,9 @@ Page({
                   icon: 'success',
                   duration : 5000,
                 })
-                app.userInfo = res.data.map.data;
+                //app.userInfo = res.data.map.data;
+                //修改原有的全局对象为本地缓存
+                app.setGlobalUserInfo(res.data.map.data);
                 wx.navigateTo({
                   url: '../mine/mine',
                 })

@@ -47,7 +47,9 @@ Page({
                   icon: 'none',
                   duration : 5000,
                 })
-                app.userInfo = res.data.map.data;
+                //app.userInfo = res.data.map.data;
+                //修改原有的全局对象为本地缓存
+                app.setGlobalUserInfo(res.data.map.data);
             }else{
               wx.showToast({
                 title: res.data.message,
