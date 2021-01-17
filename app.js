@@ -12,6 +12,19 @@ App({
   //从本地缓存中异步获取指定 key 的内容
   getGlobalUserInfo:function(){
     return wx.getStorageSync('userInfo');
-  }
+  },
+
+  reportReasonArray:[
+    "色情低俗",
+    "政治敏感",
+    "涉嫌诈骗",
+    "辱骂谩骂",
+    "广告垃圾",
+    "诱导分享",
+    "引人不适",
+    "过于暴力",
+    "违法违纪",
+    "其他原因",
+  ],
   
 })

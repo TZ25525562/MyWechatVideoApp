@@ -27,7 +27,16 @@ page{
     margin-top: 60%;
 }
 
+
+.face{
+    margin-top: 50rpx;
+    height:80rpx;
+    width: 80rpx;
+}
+
+
 .collect{
+    margin-top: 50rpx;
     height:80rpx;
     width: 80rpx;
 }
@@ -64,14 +73,9 @@ page{
     width: 80rpx;
 }
 
-.follow{
-    margin-left: 20%;
-    height:80rpx;
-    width: 80rpx;
-}
 
 .mine{
-    margin-left: 20%;
+    margin-left: 45%;
     height:80rpx;
     width: 80rpx;
 }

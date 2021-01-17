@@ -1,12 +1,28 @@
 <view class="container">
   <!-- 头像 -->
-  <image class="face" src="{{faceUrl}}" bindtap="chooseImage"></image>
+  <!-- 只有本人才可以上传头像 -->
+  <block wx:if="{{isMe}}">
+    <image class="face" src="{{faceUrl}}" bindtap="chooseImage"></image>
+  </block>
+  <block wx:else>
+    <image class="face" src="{{faceUrl}}"></image>
+  </block>
   <label class="nickname">{{nickname}}</label>
 
 
-  <!--相关接口  -->
-  <button size="mini" class="upload" bindtap="uploadVedio">上传作品</button>
-  <button size="mini" class="logout" bindtap="logout">注销</button>
+  <!-- 相关接口  -->
+  <block wx:if="{{isMe}}">
+    <button size="mini" class="upload" bindtap="uploadVedio">上传作品</button>
+    <button size="mini" class="logout" bindtap="logout">注销</button>
+  </block>
+  <block wx:else>
+    <block wx:if="{{!isFollow}}">
+      <button type="primary" size="mini" class="follow" bindtap="followMe" data-followMe="0">关注我</button>
+    </block>
+    <block wx:else>
+      <button type="default" size="mini" class="follow" bindtap="followMe" data-followMe="1">已关注</button>
+    </block>
+  </block>
 
   <!-- 个人具体信息 -->
   <view class="container-person">
@@ -14,4 +30,10 @@
     <label class="info">{{followcounts}}关注</label>
     <label class="info">{{receivelikecounts}}获赞</label>
   </view>
+</view>
+
+<view class="container-video">
+  <view class="{{videoInfo}} {{videoInfoWork}}" bindtap="selectWork">作品</view>
+  <view class="{{videoInfo}} {{videoInfoLike}}" bindtap="selectLike">收藏</view>
+  <view class="{{videoInfo}} {{videoInfoFollow}}" bindtap="selectFollow">关注</view>
 </view>

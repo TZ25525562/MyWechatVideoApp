@@ -1,7 +1,8 @@
 <view wx:for="{{videoList}}" class="container">
   <!-- 图片显示 -->
   <view class="imageClass">
-    <image src= "{{serverUrl}}{{item.coverPath}}" bindtap="showImageInfo" mode="aspectFit"></image>
+    <image src= "{{serverUrl}}{{item.coverPath}}" bindtap="showVideoInfo" 
+    mode="aspectFit" data-arrindex="{{index}}"></image>
   </view>
 
   <!-- 头像和昵称显示 -->

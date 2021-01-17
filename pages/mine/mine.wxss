@@ -28,6 +28,12 @@
   height: 50rpx;
 }
 
+.follow{
+  margin-top: 50rpx;
+  width: 160rpx;
+  height: 50rpx;
+}
+
 .logout{
   margin-top: 20rpx;
   width: 120rpx;
@@ -38,4 +44,28 @@
   display: flex;
   justify-content: space-around;
   margin-top: 50rpx;
+}
+
+.container-video{
+  display: flex;
+  flex-direction: row;
+  border: black 1px solid;
+  text-align: center;
+  line-height: 50rpx;
+}
+
+.video-info{
+  width: 100%;
+}
+
+.video-info-work{
+  background-color: gray;
+}
+
+.video-info-like{
+  background-color: gray;
+}
+
+.video-info-follow{
+  background-color: gray;
 }

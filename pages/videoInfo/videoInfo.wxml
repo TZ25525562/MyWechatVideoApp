@@ -1,50 +1,53 @@
 <view style="height:100%;width:100%">
-<video src="http://localhost:8088/4f8cc44c-b691-4e94-8a27-ce24670e8fa3/video/tmp_d33a7740356dfc16185e6257b176b763.mp4"
- muted="{{true}}" autoplay="{{true}}" loop="{{true}}" 
- enable-progress-gesture="{{false}}"
- controls="{{false}}"
- style="height:100%;width:100%"
- object-fit="{{showStyle}}">
+  <video id="myVideo" src="{{src}}" muted="{{false}}" autoplay="{{true}}" loop="{{true}}"
+    enable-progress-gesture="{{false}}" controls="{{false}}" style="height:100%;width:100%" object-fit="{{showStyle}}">
 
- <cover-view class="container">
-   <!-- 上传视频 -->
-    <cover-image src="../resources/images/camera.jpg" class="camera">
-    </cover-image>
-    <!-- 搜索视频 -->
-    <cover-image src="../resources/images/search.jpg" class="search" bindtap="search">
-    </cover-image>
- </cover-view>
+    <cover-view class="container">
+      <!-- 上传视频 -->
+      <cover-image src="../resources/images/camera.jpg" class="camera" bindtap="upload">
+      </cover-image>
+      <!-- 搜索视频 -->
+      <cover-image src="../resources/images/search.jpg" class="search" bindtap="search">
+      </cover-image>
+    </cover-view>
 
 
- <cover-view class="container-me">
-   <!-- 收藏 -->
-   <cover-image src="../resources/images/collect.jpg" class="collect"></cover-image>
-   <!-- 查看评论 -->
-   <cover-image src="../resources/images/comment.jpg" class="comment"></cover-image>
-   <!-- 分享 -->
-   <cover-image src="../resources/images/share.jpg" class="share"></cover-image>
- </cover-view>
+    <cover-view class="container-me">
+      <!-- 头像 -->
+      <cover-image src="{{serverUrl}}{{publisher.faceImage}}" class="face" bindtap="showPublisher"></cover-image>
+      <!-- 喜欢收藏 -->
+      <block wx:if="{{userLikeVideo}}">
+      <cover-image src="../resources/images/like.jpg" class="collect" 
+      bindtap="userLikeVideoOrNot"></cover-image>
+      </block>
+      <block wx:else>
+      <cover-image src="../resources/images/unlike.jpg" class="collect" 
+      bindtap="userLikeVideoOrNot"></cover-image>
+      </block>
+      <!-- 查看评论 -->
+      <cover-image src="../resources/images/comment.jpg" class="comment"></cover-image>
+      <!-- 分享 -->
+      <cover-image src="../resources/images/share.jpg" class="share" bindtap="shareMe"></cover-image>
+    </cover-view>
 
- <cover-view class="container-words">
-   <cover-view class="font">@作者</cover-view>
-   <cover-view class="font">作品描述</cover-view>
+    <cover-view class="container-words">
+      <cover-view class="font">@{{videoInfo.nickname}}</cover-view>
+      <cover-view class="font">{{videoInfo.videoDesc}}</cover-view>
 
-    <!-- 音乐bgm -->
-    <block wx:if="">
-      <cover-image src="../resources/images/music.jpg" class="bgm"></cover-image>
-      <cover-view>背景音乐名字</cover-view>
-    </block>
+      <!-- 音乐bgm -->
+      <block wx:if="">
+        <cover-image src="../resources/images/music.jpg" class="bgm"></cover-image>
+        <cover-view>背景音乐名字</cover-view>
+      </block>
 
- </cover-view>
+    </cover-view>
 
- <cover-view class="container-bottom">
-   <!-- 首页 -->
-   <cover-image src="../resources/images/index.jpg" class="index"></cover-image>
-   <!-- 关注 -->
-   <cover-image src="../resources/images/follow.jpg" class="follow"></cover-image>
-   <!-- 我的 -->
-   <cover-image src="../resources/images/user.jpg" class="mine"></cover-image>
- </cover-view>
+    <cover-view class="container-bottom">
+      <!-- 首页 -->
+      <cover-image src="../resources/images/index.jpg" class="index" bindtap="backHome"></cover-image>
+      <!-- 我的 -->
+      <cover-image src="../resources/images/user.jpg" class="mine" bindtap="showMine"></cover-image>
+    </cover-view>
 
-</video>
+  </video>
 </view>

@@ -26,8 +26,8 @@ Page({
     var isSaveRecord = params.isSaveRecord;
     var videoDesc = params.search;
     //搜索词为空
-    if(videoDesc == null || videoDesc == "" || videoDesc == undefined){
-      videoDesc = 0;
+    if(isSaveRecord == null || isSaveRecord == "" || isSaveRecord == undefined){
+      isSaveRecord = 0;
     }
     me.setData({
       screenWidth: screenWidth,
@@ -108,6 +108,18 @@ Page({
   onPullDownRefresh:function(){
       wx.showNavigationBarLoading();
       this.showCurrentPageVideo(1,0);
+  },
+
+  showVideoInfo:function(e){
+      var me = this;
+      // 获取视频下标
+      var videoList = me.data.videoList;
+      var index = e.target.dataset.arrindex;
+      // 转成String类型传参
+      var videoInfo = JSON.stringify(videoList[index]);
+      wx.redirectTo({
+        url: '../videoInfo/videoInfo?videoInfo=' + videoInfo,
+      })
   }
 
 })
