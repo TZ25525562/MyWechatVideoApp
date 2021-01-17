@@ -1,0 +1,24 @@
+<view>
+  <form bindsubmit="formSubmit">
+    <!-- 选择举报理由 -->
+    <view class="container-reason">
+      <picker mode="selector" name="reason" range="{{reportReasonArray}}" bindchange="selectReason">
+        举报理由：{{reasonType}}
+      </picker>
+    </view>
+
+    <!-- 举报内容 -->
+    <view class="container-content">
+      <view>举报描述（选填）:</view>
+      <textarea placeholder="请详细说明举报原因" name="content" confirm-type="return"></textarea>
+    </view>
+
+    <!-- 温馨提示 -->
+    <view class="tip">收到举报后，我们会在24小时内处理，感谢您的举报，互联网环境因你更加美好！</view>
+
+    <!-- 提交框 -->
+    <view>
+      <button form-type="submit" type="warn" class="submit">提交</button>
+    </view>
+  </form>
+</view>
