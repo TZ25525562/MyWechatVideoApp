@@ -1,0 +1,51 @@
+#服务器设置
+server:
+  port: 8088
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  #数据库设置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      stat-view-servlet-allow: true
+      test-on-borrow: true
+    username: root
+    password: Tong@117038
+    url: jdbc:mysql://localhost:3306/audio?serverTimezone=UTC&useAffectedRows=true
+
+  #  文件上传设置
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  redis:
+#    数据库索引
+    database: 1
+    host: 192.168.98.129
+    port: 6379
+    jedis:
+      pool:
+#        最大连接数
+        max-active: 1000
+#        最小空闲连接
+        min-idle: 2
+#        最大空闲连接
+        max-idle: 10
+
+#mybatis设置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.tz.pojo
+
+#mybatis 输出日志，扫描mapper包
+logging:
+  level:
+    root: info
+    com.tz.mapper: debug
+
+
