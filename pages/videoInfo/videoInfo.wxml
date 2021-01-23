@@ -25,7 +25,7 @@
       bindtap="userLikeVideoOrNot"></cover-image>
       </block>
       <!-- 查看评论 -->
-      <cover-image src="../resources/images/comment.jpg" class="comment"></cover-image>
+      <cover-image src="../resources/images/comment.jpg" class="comment" bindtap="leaveComment"></cover-image>
       <!-- 分享 -->
       <cover-image src="../resources/images/share.jpg" class="share" bindtap="shareMe"></cover-image>
     </cover-view>
@@ -51,3 +51,38 @@
 
   </video>
 </view>
+
+<view class="contain-comment">
+  <!-- 发表留言 -->
+  <input class="input" name="commentContext" placeholder="{{placeholder}}"
+  confirm-type="send" bindconfirm="saveComment" focus="{{commentFocus}}" 
+  value="{{commentValue}}"
+  data-replyFatherCommentId="{{fatherCommentId}}" data-replyToUserId="{{toUserId}}" 
+  />
+
+</view>
+
+<!-- 所有留言内容 -->
+<block wx:for="{{commentList}}">
+  <view class="commentAll" bindtap="replyComment" 
+  data-nickname="{{item.nickname}}"
+  data-commentId="{{item.id}}"
+  data-fromUserid="{{item.fromUserId}}">
+    <!-- 头像 -->
+    <image class="face-comment" src="{{serverUrl}}{{item.faceImage}}"></image>
+<!-- 留言时间 -->
+    <view>
+      <label class="nickname">@{{item.nickname}}于</label>
+      <label class="date">{{item.createTime}}</label>
+      <!-- 判断是否为回复评论 -->
+      <block wx:if="{{item.toNickname}}">
+        <label class="nickname">回复@{{item.toNickname}}:</label>
+      </block>
+      <block wx:else>
+        <label class="date">留言：</label>
+      </block>
+    </view>
+    <!-- 留言内容 -->
+    <view class="context">{{item.comment}}</view>
+  </view>
+</block>

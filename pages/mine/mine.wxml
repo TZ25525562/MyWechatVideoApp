@@ -37,3 +37,27 @@
   <view class="{{videoInfo}} {{videoInfoLike}}" bindtap="selectLike">收藏</view>
   <view class="{{videoInfo}} {{videoInfoFollow}}" bindtap="selectFollow">关注</view>
 </view>
+
+<view class="container-video-list">
+
+  <view hidden="{{myWorkFlag}}">
+    <block wx:for="{{myVideoList}}">
+      <image src="{{serverUrl}}{{item.coverPath}}" mode="aspectFill" 
+      class="videoImage" bindtap="showVideo" data-arrindex="{{index}}"></image>
+    </block>
+  </view>
+
+  <view hidden="{{myLikeFlag}}">
+    <block wx:for="{{LikeVideoList}}">
+      <image src="{{serverUrl}}{{item.coverPath}}" mode="aspectFill" 
+      class="videoImage" bindtap="showVideo" data-arrindex="{{index}}"></image>
+    </block>
+  </view>
+
+  <view hidden="{{myFollowFlag}}">
+    <block wx:for="{{FollowVideoList}}">
+      <image src="{{serverUrl}}{{item.coverPath}}" mode="aspectFill" 
+      class="videoImage" bindtap="showVideo" data-arrindex="{{index}}"></image>
+    </block>
+  </view>
+</view>

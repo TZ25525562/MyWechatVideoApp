@@ -63,7 +63,7 @@ page{
 }
 
 .container-bottom{
-    margin-top: 100rpx;
+    margin-top: 80rpx;
     display: flex;
 }
 
@@ -78,4 +78,35 @@ page{
     margin-left: 45%;
     height:80rpx;
     width: 80rpx;
+}
+
+.contain-comment{
+    width: 100%;
+    height: 100rpx;
+    text-align: left;
+}
+
+.input{
+    background-color: black;
+    color: white;
+    height: 100rpx;
+    font-size: 20px;
+}
+.commentAll{
+    /* margin-top: 10rpx; */
+    background-color: black;
+}
+
+.nickname{
+    font-size: 20px;
+    color: white;
+}
+
+.date{
+    font-size: 20px;
+    color: white;
+}
+.context{
+    font-size: 20px;
+    color: white;
 }

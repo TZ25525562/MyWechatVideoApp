@@ -69,3 +69,8 @@
 .video-info-follow{
   background-color: gray;
 }
+
+.container-video-list{
+  display: flex;
+  width:100%;
+}

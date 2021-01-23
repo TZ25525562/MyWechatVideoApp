@@ -15,6 +15,15 @@ Page({
     loginUserId: "",
     // 视频发布者信息
     publisher: "",
+    //发表评论焦点和内容
+    commentFocus: false,
+    commentValue: "",
+    // 评论分页
+    commentList:[],
+    currentPage:1,
+    totalPage:1,
+
+    placeholder:"说点什么...",
   },
 
   //全局变量，用来保存videoContent
@@ -63,6 +72,7 @@ Page({
         })
       }
     })
+    me.getAllComments(1);
   },
 
 
@@ -200,8 +210,8 @@ Page({
           // 下载文件，返回临时文件路径
           wx.showLoading();
           wx.downloadFile({
-            url: serverUrl + me.data.videoInfo.videoPath, 
-            success (res) {
+            url: serverUrl + me.data.videoInfo.videoPath,
+            success(res) {
               // 只要服务器有响应数据，就会把响应内容写入文件并进入success回调
               if (res.statusCode === 200) {
                 // 临时文件路径
@@ -209,7 +219,7 @@ Page({
                 // 保存到本地
                 wx.saveVideoToPhotosAlbum({
                   filePath: filePath,
-                  success () {
+                  success() {
                     // console.log(res.errMsg)
                     wx.hideLoading();
                   }
@@ -235,40 +245,155 @@ Page({
               url: '../userLogin/Login',
             })
           } else {
-              wx.navigateTo({
-                url: '../report/report?videoId=' + videoId + "&publisherId=" + publisherId,
-              })
-           }
+            wx.navigateTo({
+              url: '../report/report?videoId=' + videoId + "&publisherId=" + publisherId,
+            })
+          }
         }
       }
     })
   },
 
   // 开启分享至微信好友功能
-  onShareAppMessage:function(){
-      var me = this;
-      var videoInfo = me.data.videoInfo; 
-      // 转发的标题和URL以及回调函数
-      return{
-        title:"短视频",
-        path:"../videoInfo/videoInfo?videoInfo=" + JSON.stringify(videoInfo),
-        success:function(){
-          wx.showToast({
-            title: '分享成功!',
-          })
-        }
+  onShareAppMessage: function () {
+    var me = this;
+    var videoInfo = me.data.videoInfo;
+    // 转发的标题和URL以及回调函数
+    return {
+      title: "短视频",
+      path: "../videoInfo/videoInfo?videoInfo=" + JSON.stringify(videoInfo),
+      success: function () {
+        wx.showToast({
+          title: '分享成功!',
+        })
       }
+    }
   },
 
   // 分享至朋友圈
-  onShareTimeline: function() {
+  onShareTimeline: function () {
     var me = this;
-    var videoInfo = me.data.videoInfo; 
+    var videoInfo = me.data.videoInfo;
     return {
       title: '短视频',
       path: "../videoInfo/videoInfo?videoInfo=" + JSON.stringify(videoInfo),
     }
-},
+  },
+
+  //查看评论
+  leaveComment: function () {
+    var me = this;
+    me.setData({
+      commentFocus: true,
+    })
+  },
+
+// 发表评论
+  saveComment:function(e){
+    var me = this;
+   //获取页面回复评论的信息
+    var replyFatherCommentId = e.currentTarget.dataset.replyfathercommentid;
+    var replyToUserId = e.currentTarget.dataset.replytouserid;
+    //登录成功后的回调页面（本页）,? 和= 传入与下面重复，无法被读取
+    var videoInfo = JSON.stringify(me.data.videoInfo);
+    var realUrl = "../videoInfo/videoInfo#videoInfo@" + videoInfo;
+    var user = app.getGlobalUserInfo();
+    // 用户未登录，跳转到登录页面，否则跳转到此界面
+    if (user == null || user == "" || user == undefined) {
+      wx.redirectTo({
+        url: '../userLogin/Login?realUrl=' + realUrl,
+      })
+    } else {
+      wx.showLoading({
+        title: '请稍后...',
+      })
+      // console.log(e);
+      var context = e.detail.value;
+      wx.request({
+        url: app.serverUrl + '/video/saveComment?toUserId=' + replyToUserId + 
+        '&fatherCommentId=' + replyFatherCommentId,
+        method:'POST',
+        data:{
+          videoId:me.data.videoId,
+          fromUserId:user.id,
+          comment:context,
+        },
+        header: {
+          'content-type': 'application/json',// 默认值
+          'userId': user.id,//通行拦截器
+        },
+        success:function(){
+          wx.hideLoading();
+          // console.log(res);
+          me.setData({
+            commentValue:"",
+            commentList:[],
+          })
+
+          me.getAllComments(1);
+        }
+      })
+    }
+  },
+
+  // 查询所有评论
+  getAllComments:function(page){
+      var me = this;
+      var videoId = me.data.videoId;
+      wx.request({
+        url: me.data.serverUrl + '/video/getAllComments?videoId=' + videoId + 
+        '&page=' + page + '&pageSize=5',
+        method:"POST",
+        success:function(res){
+          // console.log(res);
+          var data = res.data.map.data;
+          var commentList = data.rows;
+          // console.log(commentList);
+          var newCommentList = me.data.commentList;
+          me.setData({
+            commentList:newCommentList.concat(commentList),
+            currentPage:page,
+            totalPage:data.records,
+          })
+          // console.log(me.data.commentList);
+        }
+      })
+  },
+
+  // 下拉触底函数
+  onReachBottom:function(){
+    var me = this;
+    var currentPage = me.data.currentPage;
+    var totalPage = me.data.totalPage;
+    if(currentPage == totalPage){
+      wx.showToast({
+        title: '已经到底了',
+        icon:"none",
+        duration:5000,
+      })
+      return;
+    }
+    var page = currentPage + 1;
+    me.getAllComments(page);
+  },
+
+  // 回复评论函数
+  replyComment:function(e){
+    var me = this;
+    // console.log(e);
+    // 获取该评论信息
+    var fatherCommentId = e.currentTarget.dataset.commentid;
+    var nickname = e.currentTarget.dataset.nickname;
+    var toUserId = e.currentTarget.dataset.fromuserid;
+    me.setData({
+      placeholder:"回复：" + nickname,
+      fatherCommentId:fatherCommentId,
+      toUserId:toUserId,
+      commentFocus:true,
+    })
+  }
+
+
 
 
 })
