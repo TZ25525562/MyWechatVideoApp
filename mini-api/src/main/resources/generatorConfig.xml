@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+    <!-- 可以用于加载配置项或者配置文件，在整个配置文件中就可以使用${propertyKey}的方式来引用配置项
+        resource：配置资源加载地址，使用resource，MBG从classpath开始找，比如com/myproject/generatorConfig.properties
+        url：配置资源加载地质，使用URL的方式，比如file:///C:/myfolder/generatorConfig.properties.
+        注意，两个属性只能选址一个;
+        另外，如果使用了mybatis-generator-maven-plugin，那么在pom.xml中定义的properties都可以直接在generatorConfig.xml中使用
+    <properties resource="" url="" />
+     -->
+    <context id="mybatis" targetRuntime="MyBatis3" >
+
+        <!-- 必须要有的，使用这个配置链接数据库
+            @TODO:是否可以扩展
+         -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/audio?serverTimezone=UTC"
+                        userId="root"
+                        password="Tong@117038">
+        </jdbcConnection>
+
+
+<!--        对应的pojo（bean）文件位置-->
+        <javaModelGenerator targetPackage="com.tz.pojo" targetProject="D:\仿抖音小程序\myvideoapp\pojo\src/main/java"></javaModelGenerator>
+
+<!--对应的mapper映射文件位置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="D:\仿抖音小程序\myvideoapp\mapper/src/main/resources"></sqlMapGenerator>
+
+<!--        对应的java映射位置-->
+        <javaClientGenerator targetPackage="com.tz.mapper" type="XMLMAPPER" targetProject="D:\仿抖音小程序\myvideoapp\mapper/src/main/java"></javaClientGenerator>
+
+<!--        所有生成的表-->
+<!--        <table tableName="bgm" ></table>-->
+        <table tableName="comments" ></table>
+<!--        <table tableName="search_records" ></table>-->
+<!--        <table tableName="users" ></table>-->
+<!--        <table tableName="users_fans" ></table>-->
+<!--        <table tableName="users_like_videos" ></table>-->
+<!--        <table tableName="users_report" ></table>-->
+<!--        <table tableName="videos" ></table>-->
+
+    </context>
+
+</generatorConfiguration>
